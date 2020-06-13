@@ -41,7 +41,8 @@ def cityreader(cities=[]):
       # csv file value is expecting lng not lon
       city = City(row['city'], float(row["lat"]), float(row["lng"])) 
       cities.append(city)
-    
+
+    csvfile.close()
     return cities
 
 cityreader(cities)
@@ -92,17 +93,19 @@ def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
     reader = csv.DictReader(csvfile)
 
     for row in reader:
-      if float(row['lat']) <= lat1 and float(row['lng']) <= lon1:
+      in_1 = float(row['lat'])
+      in_2 = float(row['lng'])
+      in_3 = float(row['lat'])
+      in_4 = float(row['lng'])
+      if in_1 <= lat1 and in_2 <= lon1:
         within.append(City(row["city"], row["lat"], row["lng"]))
-      elif float(row['lat']) <= lat2 and float(row['lng']) <= lon2:
+      elif in_3 <= lat2 and in_4 <= lon2:
         within.append(City(row["city"], row["lat"], row["lng"]))
 
   return within
 
-print(input("""Enter coordinates to list cities within those points.\n
-Coordinates are represented as lat1, lon1, lat2, lon2:"""))
+coordinates = input("""\nEnter coordinates to list cities within those points.
+Coordinates are represented as lat1, lon1, lat2, lon2:""").split(',')
 
-city_list = cityreader_stretch(lat1, lon1, lat2, lon2)
-
-for city in city_list:
-  print(f"{city.name}: ({city.lat}, {cit.lon})")
+for city in cities:
+  print(f"{city.name}: ({city.lat}, {city.lon})")
