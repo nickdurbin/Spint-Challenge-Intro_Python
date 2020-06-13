@@ -54,8 +54,10 @@ print(e)
 # age, for example ("David", 31), for everyone between the ages of 27 and 32,
 # inclusive.
 print("Names and ages between 27 and 32:")
-f = []
+f = [(a.name, a.age) for a in humans if a.age in [27, 28, 29, 30, 31, 32]]
+alt = [(a.name, a.age) for a in humans if 27 <= a.age <= 32]
 print(f)
+print(alt)
 
 # Write a list comprehension that creates a list of new Humans like the old
 # list, except with all the names uppercase and the ages with 5 added to them.
