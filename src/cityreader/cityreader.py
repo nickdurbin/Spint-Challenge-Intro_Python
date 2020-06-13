@@ -10,6 +10,9 @@ class City:
   # def __str__(self):
   #   print(f"City: {self.name}, Lat: {self.lat}, Lon: {self.lon}")
 
+  # def __repr__(self):
+  #   print(f"City: {self.name}, Lat: {self.lat}, Lon: {self.lon}")
+
 # We have a collection of US cities with population over 750,000 stored in the
 # file "cities.csv". (CSV stands for "comma-separated values".)
 #
@@ -35,7 +38,8 @@ def cityreader(cities=[]):
     reader = csv.DictReader(csvfile)
     
     for row in reader:
-      city = City(row['city'], float(row["lat"]), float(row["lng"]))
+      # csv file value is expecting lng not lon
+      city = City(row['city'], float(row["lat"]), float(row["lng"])) 
       cities.append(city)
     
     return cities
@@ -84,5 +88,21 @@ def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   # TODO Ensure that the lat and lon valuse are all floats
   # Go through each city and check to see if it falls within 
   # the specified coordinates.
+  with open('cities.csv', 'r') as csvfile:
+    reader = csv.DictReader(csvfile)
+
+    for row in reader:
+      if float(row['lat']) <= lat1 and float(row['lng']) <= lon1:
+        within.append(City(row["city"], row["lat"], row["lng"]))
+      elif float(row['lat']) <= lat2 and float(row['lng']) <= lon2:
+        within.append(City(row["city"], row["lat"], row["lng"]))
 
   return within
+
+print(input("""Enter coordinates to list cities within those points.\n
+Coordinates are represented as lat1, lon1, lat2, lon2:"""))
+
+city_list = cityreader_stretch(lat1, lon1, lat2, lon2)
+
+for city in city_list:
+  print(f"{city.name}: ({city.lat}, {cit.lon})")
