@@ -48,8 +48,8 @@ def cityreader(cities=[]):
 cityreader(cities)
 
 # Print the list of cities (name, lat, lon), 1 record per line.
-for c in cities:
-    print(c)
+# for c in cities:
+#     print(c)
 
 # STRETCH GOAL!
 #
@@ -89,23 +89,26 @@ def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   # TODO Ensure that the lat and lon valuse are all floats
   # Go through each city and check to see if it falls within 
   # the specified coordinates.
-  with open('cities.csv', 'r') as csvfile:
-    reader = csv.DictReader(csvfile)
+  # Min and max methods to find the upper and lower or
+  # Opposite corners seems like the ebst solution available.
+  # Resource: https://www.geeksforgeeks.org/max-min-python/
 
-    for row in reader:
-      in_1 = float(row['lat'])
-      in_2 = float(row['lng'])
-      in_3 = float(row['lat'])
-      in_4 = float(row['lng'])
-      if in_1 <= lat1 and in_2 <= lon1:
-        within.append(City(row["city"], row["lat"], row["lng"]))
-      elif in_3 <= lat2 and in_4 <= lon2:
-        within.append(City(row["city"], row["lat"], row["lng"]))
-
+  # for loop to grab each city meeting the parameters
+  # a user inputs 
+  for city in cities:
+    # take the first input minimum and the maximum
+    # make sure city is in between the high and low points
+    if min(lat1, lat2) <= city.lat <= max(lat1, lat2):
+      # take the second input minimum and the maximum
+      # make sure city is in between the high and low points
+      if  min(lon1, lon2) <= city.lon <= max(lon1, lon2):
+        # if so append to the within list
+        within.append(city) 
+  # return the list of cities
   return within
 
-coordinates = input("""\nEnter coordinates to list cities within those points.
-Coordinates are represented as lat1, lon1, lat2, lon2:""").split(',')
+first_input = input("Please enter 2 positions each separted by commas lat1, lon1: ").split(',')
 
-for city in cities:
-  print(f"{city.name}: ({city.lat}, {city.lon})")
+second_input = input("Please enter 2 more positions each separted by commas lat2, lon2: ").split(',')
+
+cityreader_stretch(float(first_input[0]), float(first_input[1]), float(second_input[0]), float(second_input[1]), cities)
